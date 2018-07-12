@@ -10,6 +10,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
+
 	"github.com/Yawning/chacha20"
 	"golang.org/x/crypto/blowfish"
 	"golang.org/x/crypto/cast5"
@@ -148,6 +149,21 @@ func newSalsa20Stream(key, iv []byte, _ DecOrEnc) (cipher.Stream, error) {
 	return &c, nil
 }
 
+type noneStream struct {
+}
+
+func (n *noneStream) XORKeyStream(dst, src []byte) {
+	if len(dst) < len(src) {
+		panic(errors.New("len(dst) < len(src)"))
+	}
+	copy(dst, src)
+}
+
+func newNoneStream(key, iv []byte, _ DecOrEnc) (cipher.Stream, error) {
+	n := noneStream{}
+	return &n, nil
+}
+
 type cipherInfo struct {
 	keyLen    int
 	ivLen     int
@@ -169,6 +185,7 @@ var cipherMethod = map[string]*cipherInfo{
 	"chacha20":      {32, 8, newChaCha20Stream},
 	"chacha20-ietf": {32, 12, newChaCha20IETFStream},
 	"salsa20":       {32, 8, newSalsa20Stream},
+	"none":          {0, 0, newNoneStream},
 }
 
 func CheckCipherMethod(method string) error {
