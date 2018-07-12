@@ -184,6 +184,10 @@ func BenchmarkSalsa20Init(b *testing.B) {
 	benchmarkCipherInit(b, "salsa20")
 }
 
+func BenchmarkNoneInit(b *testing.B) {
+	benchmarkCipherInit(b, "none")
+}
+
 func benchmarkCipherEncrypt(b *testing.B, method string) {
 	ci := cipherMethod[method]
 	key := cipherKey[:ci.keyLen]
@@ -254,6 +258,10 @@ func BenchmarkChacha20IETFEncrypt(b *testing.B) {
 
 func BenchmarkSalsa20Encrypt(b *testing.B) {
 	benchmarkCipherEncrypt(b, "salsa20")
+}
+
+func BenchmarkNoneEncrypt(b *testing.B) {
+	benchmarkCipherEncrypt(b, "none")
 }
 
 func benchmarkCipherDecrypt(b *testing.B, method string) {
@@ -331,4 +339,8 @@ func BenchmarkChaCha20IETFDecrypt(b *testing.B) {
 
 func BenchmarkSalsa20Decrypt(b *testing.B) {
 	benchmarkCipherDecrypt(b, "salsa20")
+}
+
+func BenchmarkNoneDecrypt(b *testing.B) {
+	benchmarkCipherDecrypt(b, "none")
 }

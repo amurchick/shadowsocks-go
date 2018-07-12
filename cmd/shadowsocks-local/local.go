@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"time"
 
-	ss "github.com/shadowsocks/shadowsocks-go/shadowsocks"
+	ss "github.com/amurchick/shadowsocks-go/shadowsocks"
 )
 
 var debug ss.DebugLog
